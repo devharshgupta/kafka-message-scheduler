@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/devharshgupta/kafka-message-scheduler/common/db"
 	"github.com/devharshgupta/kafka-message-scheduler/common/env"
 	"github.com/devharshgupta/kafka-message-scheduler/common/kafka"
 	"github.com/devharshgupta/kafka-message-scheduler/common/validator"
@@ -15,7 +16,7 @@ import (
 
 func init() {
 	env.InitEnv()
-	// db.InitDatabase()
+	db.InitDatabase()
 	validator.InitValidator()
 }
 

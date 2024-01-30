@@ -31,8 +31,7 @@ func consumeMessages(consumer *kafka.Consumer, topics []string, pollTimeoutMs in
 
 			switch e := ev.(type) {
 			case *kafka.Message:
-				fmt.Printf("Received message from topic %s [%d] at offset %v: %s\n",
-					*e.TopicPartition.Topic, e.TopicPartition.Partition, e.TopicPartition.Offset, string(e.Value))
+				MessageConsumer(e)
 			case kafka.Error:
 				fmt.Printf("Error🔥 : %v\n", e)
 				run = false
