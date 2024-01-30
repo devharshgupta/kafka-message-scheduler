@@ -62,15 +62,19 @@ var pushPmius1Message []models.Message
 
 func pushPmius1MessagetoDb(data *kafka.Message) {
 	var message models.Message
-	if err := json.Unmarshal(data.Value, message); err != nil {
+	if err := json.Unmarshal(data.Value, &message); err != nil {
 		log.Fatal("error while consuming p-1 message", err)
+		return
 	}
 	pushPmius1Message = append(pushPmius1Message, message)
 	pushPmius1MessageCount++
 
 	if pushPmius1MessageCount > 100 {
 		err := repository.CreateMessages(pushPmius1Message)
-		log.Fatal("error while pusing p-1 message to db", err)
+		if err != nil {
+			log.Fatal("error while pusing p-1 message to db", err)
+			return
+		}
 		pushPmius1Message = []models.Message{}
 		pushPmius1MessageCount = 0
 	}
@@ -82,15 +86,19 @@ var pushP1Message []models.Message
 
 func pushP1MessagetoDb(data *kafka.Message) {
 	var message models.Message
-	if err := json.Unmarshal(data.Value, message); err != nil {
+	if err := json.Unmarshal(data.Value, &message); err != nil {
 		log.Fatal("error while consuming p1 message", err)
+		return
 	}
 	pushP1Message = append(pushP1Message, message)
 	pushP1MessageCount++
 
 	if pushP1MessageCount > 2000 {
 		err := repository.CreateMessages(pushPmius1Message)
-		log.Fatal("error while pusing p1 message to db", err)
+		if err != nil {
+			log.Fatal("error while pusing p1 message to db", err)
+			return
+		}
 		pushP1Message = []models.Message{}
 		pushP1MessageCount = 0
 	}
@@ -102,16 +110,21 @@ var pushP0Message []models.Message
 func pushP0MessagetoDb(data *kafka.Message) {
 
 	var message models.Message
-	if err := json.Unmarshal(data.Value, message); err != nil {
+	if err := json.Unmarshal(data.Value, &message); err != nil {
 		log.Fatal("error while consuming p0 message", err)
+		return
 	}
 	pushP0Message = append(pushP0Message, message)
 	pushP0MessageCount++
 
 	if pushP0MessageCount > 500 {
 		err := repository.CreateMessages(pushPmius1Message)
-		log.Fatal("error while pusing p0 message to db", err)
+		if err != nil {
+			log.Fatal("error while pusing p0 message to db", err)
+			return
+		}
 		pushP0Message = []models.Message{}
 		pushP0MessageCount = 0
+
 	}
 }
