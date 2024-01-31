@@ -1,13 +1,14 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE messages (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4() ,
-    key VARCHAR(255) NOT NULL,
-    value TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    scheduled_at TIMESTAMP NOT NULL,
-    is_published BOOLEAN DEFAULT false NOT NULL
+    id uuid NOT NULL DEFAULT uuid_generate_v4(),
+    key varchar NOT NULL,
+    value jsonb NOT NULL,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    scheduled_at timestamp NOT NULL,
+    is_published bool NOT NULL DEFAULT false,
+    PRIMARY KEY (id)
 );
 
 CREATE OR REPLACE FUNCTION update_updated_at()
