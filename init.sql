@@ -8,7 +8,8 @@ CREATE TABLE messages (
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     scheduled_at timestamp NOT NULL,
     is_published bool NOT NULL DEFAULT false,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    INDEX idx_scheduled_at ("scheduled_at")
 );
 
 CREATE OR REPLACE FUNCTION update_updated_at()
