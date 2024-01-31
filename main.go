@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/devharshgupta/kafka-message-scheduler/common/constant"
 	"github.com/devharshgupta/kafka-message-scheduler/common/db"
 	"github.com/devharshgupta/kafka-message-scheduler/common/env"
 	"github.com/devharshgupta/kafka-message-scheduler/common/kafka"
@@ -18,6 +19,8 @@ func init() {
 	env.InitEnv()
 	db.InitDatabase()
 	validator.InitValidator()
+	kafka.EnsureKafkaTopicsExitInit(constant.KAFKA_TOPICS)
+	go kafka.InitConsumer(constant.KAFKA_TOPICS, 100) // polling @100ms
 }
 
 func main() {
@@ -26,8 +29,5 @@ func main() {
 
 	router.InitRoutes(app)
 
-	go kafka.InitConsumer([]string{"Kafka_message_scheduler.P-1_Message", "Kafka_message_scheduler.P0_Message", "Kafka_message_scheduler.P1_Message"}, 100) // polling @100ms
-
 	log.Fatal(app.Listen(":" + os.Getenv("APP_PORT")))
-
 }
