@@ -13,8 +13,8 @@ func main() {
 	// Create a cron job scheduler
 	c := cron.New()
 
-	// Add a cron job that runs the updateQuery function every second
-	c.AddFunc("@every 1s", updateQuery)
+	// Add a cron job that runs the updateQuery function every 30 second
+	c.AddFunc("@every 30s", updateQuery)
 
 	// Start the cron job scheduler
 	c.Start()
@@ -26,14 +26,14 @@ func main() {
 func updateQuery() {
 
 	// Establish a connection to the PostgreSQL database
-	db, err := sql.Open("postgres", "host=localhost user=docker password=docker dbname=messages port=5432 sslmode=disable")
+	db, err := sql.Open("postgres", "host=localhost user=docker password=docker dbname=messages port=5432 sslmode=disable timezone=UTC")
 	if err != nil {
 		log.Fatal("Error connecting to the database:", err)
 	}
 	defer db.Close()
 
 	// Prepare the update query
-	query := "UPDATE messages SET is_published = true WHERE scheduled_at >= NOW() AND scheduled_at <= NOW() + INTERVAL '1 minute';"
+	query := "UPDATE messages SET is_published = true WHERE scheduled_at >= NOW() AND scheduled_at <= NOW() + INTERVAL '30 second';"
 
 	// Execute the update query
 	_, err = db.Exec(query)
