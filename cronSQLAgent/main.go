@@ -13,8 +13,8 @@ func main() {
 	// Create a cron job scheduler
 	c := cron.New()
 
-	// Add a cron job that runs the updateQuery function every minute
-	c.AddFunc("@every 1m", updateQuery)
+	// Add a cron job that runs the updateQuery function every second
+	c.AddFunc("@every 1s", updateQuery)
 
 	// Start the cron job scheduler
 	c.Start()

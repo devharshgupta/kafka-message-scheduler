@@ -28,10 +28,16 @@ Make sure you have Docker and Docker Compose installed on your machine.
    docker-compose up
    ```
 
-4. After the cluster starts successfully, run the application:
+4. After the cluster starts successfully, run the main application:
 
    ```bash
    go run main.go
+   ```
+
+5. Open a new terminal, navigate to the `cronSQLAgent` directory, and start the message publisher / cron agent:
+
+   ```bash
+   cd cronSQLAgent && go run main.go
    ```
 
 ## Debezium Setup
