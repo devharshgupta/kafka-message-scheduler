@@ -69,7 +69,7 @@ func pushPmius1MessagetoDb(data *kafka.Message) {
 	pushPmius1Message = append(pushPmius1Message, message)
 	pushPmius1MessageCount++
 
-	if pushPmius1MessageCount > 100 {
+	if pushPmius1MessageCount > 1 { // set this count according to your message frquency and db wirte speed for eg this can be 100 if you are receving 1000 messages per second
 		err := repository.CreateMessages(pushPmius1Message)
 		if err != nil {
 			log.Fatal("error while pusing p-1 message to db", err)
