@@ -1,11 +1,11 @@
-package cronsqlagent
+package main
 
 import (
 	"database/sql"
 	"log"
-	"os"
 	"time"
 
+	_ "github.com/lib/pq"
 	"github.com/robfig/cron/v3"
 )
 
@@ -24,8 +24,9 @@ func main() {
 }
 
 func updateQuery() {
+
 	// Establish a connection to the PostgreSQL database
-	db, err := sql.Open("postgres", os.Getenv("DATABASE_URL"))
+	db, err := sql.Open("postgres", "host=localhost user=docker password=docker dbname=messages port=5432 sslmode=disable")
 	if err != nil {
 		log.Fatal("Error connecting to the database:", err)
 	}
